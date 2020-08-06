@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"
+      integrity="sha384-HqaYdAE26lgFCJsUF9TBdbZf7ygr9yPHtxtg37JshqVQi6CCAo6Qvwmgc5xclIiV" crossorigin="anonymous">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Contact</title>
+</head>
+<body>
+<div class="jumbotron container text-center col-lg-5 col-lg-offset-5">
+
+    <h1>Add New Contact</h1>
+    <br>
+
+    <form action="/" method="get" onsubmit="return checkUserInput()">
+        <label>Name: </label>
+        <input type="text" id="name" name="name">
+
+        <label>Mail: </label>
+        <input type="text" id="mail" name="mail">
+
+        <label>Phone Number: </label>
+        <input type="text" id="phonenumber" name="phonenumber">
+
+        <input type="button" class="btn btn-success" value="Add Contact">
+    </form>
+
+</div>
+
+<script>
+    function checkUserInput() {
+        var name = document.getElementById("name").value;
+        var mail = document.getElementById("mail").value;
+        var phonenumber = document.getElementById("phonenumber").value;
+
+        if (name.length == 0) {
+            alert("Name is mandatory.");
+            return false;
+        }
+
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!(mail.match(mailformat))) {
+            alert("Mail is not a valid format.");
+            return false;
+        }
+
+        if (phonenumber.length == 0) {
+            alert("Enter a phone number.");
+            return false;
+        }
+        submitOK = true;
+    }
+</script>
+
+</body>
+</html>
