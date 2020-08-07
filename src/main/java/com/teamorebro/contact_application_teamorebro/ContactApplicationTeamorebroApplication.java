@@ -14,33 +14,26 @@ public class ContactApplicationTeamorebroApplication {
     private static Connection conn = null;
 
     public static void main(String[] args) {
-        readContacts();
         SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
     }
 
-    public static ArrayList<Contact> searchContacts(String word){
-        openConnection();
-
+    public static ArrayList<Contact> searchContacts(String searchword){
         try {
+            openConnection();
             ArrayList<Contact> contacts = readContacts();
             ArrayList<Contact> matchingContacts = new ArrayList<>();
-            PreparedStatement preparedStatement =
-                    conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
 
             for (Contact c : contacts) {
-                if (c.getContactName().toLowerCase().contains(word.toLowerCase())) {
-
+                if (c.getContactName().toLowerCase().contains(searchword.toLowerCase())) {
                     matchingContacts.add(new Contact(
-                            resultSet.getInt("Id"),
-                            resultSet.getString("ContactName"),
-                            resultSet.getString("Mail"),
-                            resultSet.getString("PhoneNumber")
+                            c.getId(),
+                            c.getContactName(),
+                            c.getMail(),
+                            c.getPhoneNumber()
                     ));
                 }
             }
-            return  contacts;
+            return  matchingContacts;
         }
         catch (Exception exception){
             System.out.println(exception.toString());
@@ -58,9 +51,8 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static void addContact(Contact contact) {
-        openConnection();
-
         try{
+            openConnection();
             PreparedStatement preparedStatement =
                     conn.prepareStatement("INSERT INTO Contacts (ContactName, Mail, PhoneNumber) VALUES (?, ?, ?)");
             preparedStatement.setString(1, contact.getContactName());
@@ -84,9 +76,8 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static void editContact(Contact contact) {
-        openConnection();
-
         try{
+            openConnection();
             PreparedStatement preparedStatement =
                     conn.prepareStatement("UPDATE Contacts SET ContactName = ?, Mail = ?, PhoneNumber = ?" +
                             "WHERE Id = ?");
@@ -112,9 +103,8 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static void deleteContact(int id) {
-        openConnection();
-
         try{
+            openConnection();
             PreparedStatement preparedStatement =
                     conn.prepareStatement("DELETE FROM Contacts WHERE Id = ?");
             preparedStatement.setInt(1, id);
@@ -153,9 +143,8 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static ArrayList<Contact> readContacts(){
-        openConnection();
-
         try{
+            openConnection();
             ArrayList<Contact> contacts = new ArrayList<>();
             PreparedStatement preparedStatement =
                     conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
@@ -196,13 +185,4 @@ public class ContactApplicationTeamorebroApplication {
             System.out.println(exception.toString());
         }
     }
-
-    /*public static ArrayList<Contact> getContacts() {
-        return contacts;
-    }
-
-    public static void setContacts(ArrayList<Contact> contacts) {
-        ContactApplicationTeamorebroApplication.contacts = contacts;
-    }*/
-
 }

@@ -12,15 +12,6 @@ import java.util.ArrayList;
 @RestController
 public class ContactController {
 
-    @GetMapping("/search")
-    public void searchContact(@RequestParam(value = "searchword") String searchword, Model model) {
-        ArrayList<Contact> matchingContacts = ContactApplicationTeamorebroApplication.searchContacts(searchword);
-        model.addAttribute("contacts", matchingContacts);
-        for (Contact c : matchingContacts) {
-            System.out.println(c.getContactName());
-        }
-    }
-
     @GetMapping("/findContact")
     public static Contact findContactById(@RequestParam(value = "Id") int id) {
         return ContactApplicationTeamorebroApplication.fetchContact(id);
