@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Controller
@@ -25,17 +26,18 @@ public class ViewController {
 
     @GetMapping("/")
     public String showContacts(Model model) {
-        ContactApplicationTeamorebroApplication.readContacts();
         ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.readContacts();
         model.addAttribute("contacts", contacts);
         return "index";
     }
 
-    @RequestMapping(value = "/contact/search")
-    public String searchedContacts(@RequestParam("word") String word, Model model) {
-        ContactApplicationTeamorebroApplication.readContacts();
-       // ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.searchCon(word);
-        model.addAttribute("contacts", ContactApplicationTeamorebroApplication.searchContacts(word));
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String searchedContacts(@RequestParam("searchword") String searchword, Model model) {
+        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.searchContacts(searchword);
+        model.addAttribute("contacts", contacts);
+        for (Contact c: contacts) {
+            System.out.println(c.getContactName() + " ");
+        }
         return "index";
     }
 
