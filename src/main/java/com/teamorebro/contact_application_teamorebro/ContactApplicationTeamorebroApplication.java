@@ -18,7 +18,7 @@ public class ContactApplicationTeamorebroApplication {
         SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
     }
 
-    public static Contact searchContacts(String word){
+    public static ArrayList<Contact> searchContacts(String word){
         openConnection();
 
         try {
@@ -40,6 +40,7 @@ public class ContactApplicationTeamorebroApplication {
                     ));
                 }
             }
+            return  contacts;
         }
         catch (Exception exception){
             System.out.println(exception.toString());
