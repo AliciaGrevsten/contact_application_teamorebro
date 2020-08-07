@@ -1,50 +1,43 @@
 package com.teamorebro.contact_application_teamorebro.models;
-
 public class Contact {
+    private int Id;
+    private String ContactName;
+    private String Mail;
+    private String PhoneNumber;
 
-    private static int Id;
-    private static String Name;
-    private static String Mail;
-    private static String PhoneNumber;
-
-
-    public Contact(int id, String name, String mail, String phonenumber) {
+    public Contact(int id, String contactName, String mail, String phonenumber) {
         this.Id = id;
-        this.Name = name;
+        this.ContactName = contactName;
         this.Mail = mail;
         this.PhoneNumber = phonenumber;
     }
-
-    public static int getId() {
+    public Contact(String contactName, String mail, String phonenumber) {
+        this.ContactName = contactName;
+        this.Mail = mail;
+        this.PhoneNumber = phonenumber;
+    }
+    public int getId() {
         return Id;
     }
-
-    public static void setId(int id) {
+    public void setId(int id) {
         Id = id;
     }
-
-    public static String getName() {
-        return Name;
+    public String getContactName() {
+        return ContactName;
     }
-
-    public static void setName(String name) {
-        Name = name;
+    public void setContactName(String contactName) {
+        ContactName = contactName;
     }
-
-    public static String getMail() {
+    public String getMail() {
         return Mail;
     }
-
-    public static void setMail(String mail) {
+    public void setMail(String mail) {
         Mail = mail;
     }
-
-    public static String getPhoneNumber() {
+    public String getPhoneNumber() {
         return PhoneNumber;
     }
-
-    public static void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         PhoneNumber = phoneNumber;
     }
-
 }

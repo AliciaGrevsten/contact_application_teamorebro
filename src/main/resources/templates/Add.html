@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"
       integrity="sha384-HqaYdAE26lgFCJsUF9TBdbZf7ygr9yPHtxtg37JshqVQi6CCAo6Qvwmgc5xclIiV" crossorigin="anonymous">
 
@@ -9,38 +9,39 @@
     <title>Add Contact</title>
 </head>
 <body>
-<div class="jumbotron container text-center col-lg-5 col-lg-offset-5">
+<div class="jumbotron container col-lg-5 col-lg-offset-5">
 
-    <h1>Add New Contact</h1>
+    <h1 class="text-center">Add New Contact</h1>
     <br>
 
-    <form action="/" method="get" onsubmit="return checkUserInput()">
-        <label>Name: </label>
-        <input type="text" id="name" name="name">
-
-        <label>Mail: </label>
+    <form class="form-group" action="#" method="post" th:action="@{/addContact}" onsubmit="return checkUserInput()">
+        <label for="contactName" class="form-inline">Name: </label>
+        <input type="text" id="contactName" name="contactName">
+        <br>
+        <label for="mail" class="form-inline">Mail: </label>
         <input type="text" id="mail" name="mail">
-
-        <label>Phone Number: </label>
+        <br>
+        <label for="phonenumber" class="form-inline">Phone Number: </label>
         <input type="text" id="phonenumber" name="phonenumber">
-
-        <input type="button" class="btn btn-success" value="Add Contact">
+        <br>
+        <br>
+        <button type="submit" class="btn btn-success">Add Contact</button>
     </form>
 
 </div>
 
 <script>
     function checkUserInput() {
-        var name = document.getElementById("name").value;
+        var contactName = document.getElementById("contactName").value;
         var mail = document.getElementById("mail").value;
         var phonenumber = document.getElementById("phonenumber").value;
 
-        if (name.length == 0) {
+        if (contactName.length == 0) {
             alert("Name is mandatory.");
             return false;
         }
 
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if (!(mail.match(mailformat))) {
             alert("Mail is not a valid format.");
             return false;
@@ -50,6 +51,7 @@
             alert("Enter a phone number.");
             return false;
         }
+        alert("Contact added!");
         submitOK = true;
     }
 </script>

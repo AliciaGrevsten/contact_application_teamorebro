@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"
       integrity="sha384-HqaYdAE26lgFCJsUF9TBdbZf7ygr9yPHtxtg37JshqVQi6CCAo6Qvwmgc5xclIiV" crossorigin="anonymous">
 
@@ -14,14 +14,14 @@
     <h1>Edit Existing Contact</h1>
     <br>
 
-    <form action="/" method="get" onsubmit="return checkUserInput()">
-        <label>Name: </label>
-        <input type="text" id="name" name="name">
+    <form action="/edit" method="get" onsubmit="return checkUserInput()">
+        <label for="contactName">Name: </label>
+        <input type="text" id="contactName" name="contactName">
 
-        <label>Mail: </label>
+        <label for="mail">Mail: </label>
         <input type="text" id="mail" name="mail">
 
-        <label>Phone Number: </label>
+        <label for="phonenumber">Phone Number: </label>
         <input type="text" id="phonenumber" name="phonenumber">
 
         <input type="button" class="btn btn-success" value="Save Changes">
@@ -31,7 +31,7 @@
 
 <script>
     function checkUserInput() {
-        var name = document.getElementById("name").value;
+        var name = document.getElementById("contactName").value;
         var mail = document.getElementById("mail").value;
         var phonenumber = document.getElementById("phonenumber").value;
 
@@ -40,7 +40,7 @@
             return false;
         }
 
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if (!(mail.match(mailformat))) {
             alert("Mail is not a valid format.");
             return false;
@@ -50,7 +50,7 @@
             alert("Enter a phone number.");
             return false;
         }
-
+        alert("Contact edited!");
         submitOK = true;
     }
 </script>
