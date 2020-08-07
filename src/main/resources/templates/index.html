@@ -41,9 +41,9 @@
         </thead>
         <tbody>
         <tr th:each="contact : ${contacts}">
-            <td th:text="${contact.getContactName()}">What</td>
-            <td th:text="${contact.getMail()}">Happened?</td>
-            <td th:text="${contact.getPhoneNumber()}">Happened?</td>
+            <td th:text="${contact.ContactName}">What</td>
+            <td th:text="${contact.Mail}">Happened?</td>
+            <td th:text="${contact.PhoneNumber}">Happened?</td>
             <td>
                 <button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
             </td>

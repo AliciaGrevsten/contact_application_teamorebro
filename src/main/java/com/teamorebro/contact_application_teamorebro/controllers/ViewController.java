@@ -24,10 +24,11 @@ public class ViewController {
         return "Edit";
     }
 
-    @GetMapping("/showContacts")
-    public void showContacts(Model model) {
+    @GetMapping("/")
+    public String showContacts(Model model) {
         ContactApplicationTeamorebroApplication.readContacts();
         ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.getContacts();
         model.addAttribute("contacts", contacts);
+        return "index";
     }
 }
