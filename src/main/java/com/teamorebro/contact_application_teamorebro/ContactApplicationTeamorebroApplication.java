@@ -22,6 +22,19 @@ public class ContactApplicationTeamorebroApplication {
         readContacts();
     }
 
+    public static ArrayList<Contact> searchContacts(String searchword) {
+        readContacts();
+        ArrayList<Contact> matchingContacts = new ArrayList<>();
+
+        for (Contact c: contacts) {
+            if (c.getContactName().contains(searchword)) {
+                matchingContacts.add(c);
+            }
+        }
+
+        return matchingContacts;
+    }
+
     public static void addContact(Contact contact) {
         openConnection();
 
@@ -114,4 +127,5 @@ public class ContactApplicationTeamorebroApplication {
     public static void setContacts(ArrayList<Contact> contacts) {
         ContactApplicationTeamorebroApplication.contacts = contacts;
     }
+
 }
