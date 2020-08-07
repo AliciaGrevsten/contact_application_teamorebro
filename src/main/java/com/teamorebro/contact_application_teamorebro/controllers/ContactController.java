@@ -16,10 +16,9 @@ public class ContactController {
     }*/
 
     @PostMapping("/addContact")
-    public static String addContact(@RequestParam() String contactName, String mail, String phonenumber ) {
+    public static void addContact(@RequestParam() String contactName, String mail, String phonenumber ) {
         Contact contact = new Contact(contactName, mail, phonenumber);
         ContactApplicationTeamorebroApplication.addContact(contact);
-        return "/";
     }
 
 

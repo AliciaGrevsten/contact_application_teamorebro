@@ -31,11 +31,11 @@
 
 <script>
     function checkUserInput() {
-        var name = document.getElementById("contactName").value;
+        var contactName = document.getElementById("contactName").value;
         var mail = document.getElementById("mail").value;
         var phonenumber = document.getElementById("phonenumber").value;
 
-        if (name.length == 0) {
+        if (contactName.length == 0) {
             alert("Name is mandatory.");
             return false;
         }

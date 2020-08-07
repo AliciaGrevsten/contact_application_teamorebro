@@ -27,6 +27,6 @@ public class ViewController {
     public String editContact(@RequestParam(name="input", required = false, defaultValue = "") int Id, Model model) {
         Contact contact = ContactController.findContact(Id);
         model.addAttribute(contact);
-        return "edit";
+        return "Edit";
     }*/
 }

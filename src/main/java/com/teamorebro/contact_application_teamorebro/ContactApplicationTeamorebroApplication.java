@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @SpringBootApplication
 public class ContactApplicationTeamorebroApplication {
 
-    private static String URL = "jdbc:sqlite::resource:Contact_Application_db.sqlite";
+    private static final String URL = "jdbc:sqlite:C:\\Users\\agrevs\\IdeaProjects\\contact_application_teamorebro\\src\\main\\resources\\Contact_Application_db.sqlite";
     private static Connection conn = null;
     private static ArrayList<Contact> contacts = new ArrayList<>();
 
@@ -31,13 +31,7 @@ public class ContactApplicationTeamorebroApplication {
             preparedStatement.setString(1, contact.getContactName());
             preparedStatement.setString(2, contact.getMail());
             preparedStatement.setString(3, contact.getPhoneNumber());
-            int rowsAffected = preparedStatement.executeUpdate();
-
-            if (rowsAffected==1) {
-                System.out.println("<----------------------------- Added");
-            } else {
-                System.out.println("<----------------------------- What?");
-            }
+            preparedStatement.execute();
 
         }
         catch (Exception exception){
@@ -46,6 +40,7 @@ public class ContactApplicationTeamorebroApplication {
         finally {
             try {
                 conn.close();
+                System.out.println("Connection to SQLite has been closed.");
             }
             catch (Exception exception){
                 System.out.println(exception.toString());
@@ -94,6 +89,7 @@ public class ContactApplicationTeamorebroApplication {
         finally {
             try {
                 conn.close();
+                System.out.println("Connection to SQLite has been closed.");
             }
             catch (Exception exception){
                 System.out.println(exception.toString());
@@ -108,9 +104,6 @@ public class ContactApplicationTeamorebroApplication {
         }
         catch (Exception exception){
             System.out.println(exception.toString());
-        }
-        finally {
-
         }
     }
 
