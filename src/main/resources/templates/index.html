@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/minty/bootstrap.min.css"
+      integrity="sha384-HqaYdAE26lgFCJsUF9TBdbZf7ygr9yPHtxtg37JshqVQi6CCAo6Qvwmgc5xclIiV" crossorigin="anonymous">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Application Orebro</title>
+</head>
+<body>
+<div class="jumbotron container text-center col-lg-5 col-lg-offset-5">
+
+    <h1>Contacts</h1>
+    <br>
+    <div class="row">
+        <div class="col-xs-6 col-md-8">
+            <form action="/search" method="get" onsubmit="return checkUserInput()" class="form-inline">
+                <input class="form-control" type="text" id="searchword" name="searchword" placeholder="Search">
+                <button type="submit" class="btn btn-secondary" id="search">Search</button>
+            </form>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <form action="/add" method="get">
+                <button class="btn btn-success">Add New Contact</button>
+            </form>
+        </div>
+    </div>
+
+
+    <br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col"></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contact : ${contacts}">
+            <td th:text="${contact.ContactName}">What</td>
+            <td th:text="${contact.Mail}">Happened?</td>
+            <td th:text="${contact.PhoneNumber}">Happened?</td>
+            <td>
+                <button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+            </td>
+        </tbody>
+    </table>
+
+    <br>
+
+</div>
+
+<script>
+    function checkUserInput() {
+        var searchword = document.getElementById("searchword").value;
+        if (searchword.length == 0) {
+            alert("You have to write something..");
+            return false;
+        }
+        submitOK = true;
+    }
+</script>
+
+</body>
+</html>

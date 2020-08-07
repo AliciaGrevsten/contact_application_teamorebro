@@ -9,21 +9,22 @@
     <title>Add Contact</title>
 </head>
 <body>
-<div class="jumbotron container text-center col-lg-5 col-lg-offset-5">
+<div class="jumbotron container col-lg-5 col-lg-offset-5">
 
-    <h1>Add New Contact</h1>
+    <h1 class="text-center">Add New Contact</h1>
     <br>
 
-    <form class="form-group" action="#" th:action="@{/addContact}" method="post" onsubmit="return checkUserInput()">
-        <label for="contactName">Name: </label>
+    <form class="form-group" action="#" method="post" th:action="@{/addContact}" onsubmit="return checkUserInput()">
+        <label for="contactName" class="form-inline">Name: </label>
         <input type="text" id="contactName" name="contactName">
-
-        <label for="mail">Mail: </label>
+        <br>
+        <label for="mail" class="form-inline">Mail: </label>
         <input type="text" id="mail" name="mail">
-
-        <label for="phonenumber">Phone Number: </label>
+        <br>
+        <label for="phonenumber" class="form-inline">Phone Number: </label>
         <input type="text" id="phonenumber" name="phonenumber">
-
+        <br>
+        <br>
         <button type="submit" class="btn btn-success">Add Contact</button>
     </form>
 
@@ -31,11 +32,11 @@
 
 <script>
     function checkUserInput() {
-        var name = document.getElementById("contactName").value;
+        var contactName = document.getElementById("contactName").value;
         var mail = document.getElementById("mail").value;
         var phonenumber = document.getElementById("phonenumber").value;
 
-        if (name.length == 0) {
+        if (contactName.length == 0) {
             alert("Name is mandatory.");
             return false;
         }

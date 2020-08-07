@@ -18,8 +18,21 @@ public class ContactApplicationTeamorebroApplication {
     private static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
-        SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
         readContacts();
+        SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
+    }
+
+    public static ArrayList<Contact> searchContacts(String searchword) {
+        readContacts();
+        ArrayList<Contact> matchingContacts = new ArrayList<>();
+
+        for (Contact c: contacts) {
+            if (c.getContactName().toLowerCase().contains(searchword.toLowerCase())) {
+                matchingContacts.add(c);
+            }
+        }
+
+        return matchingContacts;
     }
 
     public static void addContact(Contact contact) {
@@ -31,13 +44,7 @@ public class ContactApplicationTeamorebroApplication {
             preparedStatement.setString(1, contact.getContactName());
             preparedStatement.setString(2, contact.getMail());
             preparedStatement.setString(3, contact.getPhoneNumber());
-            int rowsAffected = preparedStatement.executeUpdate();
-
-            if (rowsAffected==1) {
-                System.out.println("<----------------------------- Added");
-            } else {
-                System.out.println("<----------------------------- What?");
-            }
+            preparedStatement.execute();
 
         }
         catch (Exception exception){
@@ -46,6 +53,59 @@ public class ContactApplicationTeamorebroApplication {
         finally {
             try {
                 conn.close();
+                System.out.println("Connection to SQLite has been closed.");
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+    }
+
+    public static void editContact(Contact contact) {
+        openConnection();
+
+        try{
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("UPDATE Contacts SET ContactName = ?, Mail = ?, PhoneNumber = ?" +
+                            "WHERE Id = ?");
+            preparedStatement.setString(1, contact.getContactName());
+            preparedStatement.setString(2, contact.getMail());
+            preparedStatement.setString(3, contact.getPhoneNumber());
+            preparedStatement.setInt(4, contact.getId());
+            preparedStatement.execute();
+
+        }
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("Connection to SQLite has been closed.");
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+    }
+
+    public static void deleteContact(int id) {
+        openConnection();
+
+        try{
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("DELETE FROM Contacts WHERE Id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+
+        }
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("Connection to SQLite has been closed.");
             }
             catch (Exception exception){
                 System.out.println(exception.toString());
@@ -94,6 +154,7 @@ public class ContactApplicationTeamorebroApplication {
         finally {
             try {
                 conn.close();
+                System.out.println("Connection to SQLite has been closed.");
             }
             catch (Exception exception){
                 System.out.println(exception.toString());
@@ -109,9 +170,6 @@ public class ContactApplicationTeamorebroApplication {
         catch (Exception exception){
             System.out.println(exception.toString());
         }
-        finally {
-
-        }
     }
 
     public static ArrayList<Contact> getContacts() {
@@ -121,4 +179,5 @@ public class ContactApplicationTeamorebroApplication {
     public static void setContacts(ArrayList<Contact> contacts) {
         ContactApplicationTeamorebroApplication.contacts = contacts;
     }
+
 }
