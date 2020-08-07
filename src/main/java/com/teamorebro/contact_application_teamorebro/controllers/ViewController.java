@@ -12,21 +12,22 @@ import java.util.ArrayList;
 @Controller
 public class ViewController {
 
-    /*@GetMapping("/")
-    public String showContacts(Model model) {
-        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.getContacts();
-        model.addAttribute(contacts);
-        return "/";
-    }
-*/
     @GetMapping("/add")
     public String addNewContact() {
         return "Add";
     }
-    /*@GetMapping("/edit")
+
+    @GetMapping("/edit")
     public String editContact(@RequestParam(name="input", required = false, defaultValue = "") int Id, Model model) {
-        Contact contact = ContactController.findContact(Id);
+        Contact contact = ContactController.findContactById(Id);
         model.addAttribute(contact);
         return "Edit";
-    }*/
+    }
+
+    @GetMapping("/showContacts")
+    public void showContacts(Model model) {
+        ContactApplicationTeamorebroApplication.readContacts();
+        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.getContacts();
+        model.addAttribute("contacts", contacts);
+    }
 }

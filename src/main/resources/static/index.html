@@ -12,19 +12,19 @@
 
     <h1>Contacts</h1>
     <br>
-<div class="row">
-    <div class="col-xs-6 col-md-8">
-        <form action="/search" method="get" onsubmit="return checkUserInput()" class="form-inline">
-            <input class="form-control" type="text" id="userInput" name="searchword" placeholder="Search">
-            <button type="submit" class="btn btn-secondary" id="search">Search</button>
-        </form>
+    <div class="row">
+        <div class="col-xs-6 col-md-8">
+            <form action="/search" method="get" onsubmit="return checkUserInput()" class="form-inline">
+                <input class="form-control" type="text" id="searchword" name="searchword" placeholder="Search">
+                <button type="submit" class="btn btn-secondary" id="search">Search</button>
+            </form>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <form action="/add" method="get">
+                <button class="btn btn-success">Add New Contact</button>
+            </form>
+        </div>
     </div>
-    <div class="col-xs-6 col-md-4">
-        <form action="/add" method="get">
-            <button class="btn btn-success">Add New Contact</button>
-        </form>
-    </div>
-</div>
 
 
     <br>
@@ -35,14 +35,21 @@
             <th scope="col">Mail</th>
             <th scope="col">Phone Number</th>
             <th scope="col"></th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
-        <!--        <tr th:each="contact : ${contacts}">
-                    <td th:text="${contact.Name}">What</td>
-                    <td th:text="${contact.Mail}">Happened?</td>
-                    <td th:text="${contact.PhoneNumber}">Happened?</td>
-                </tr>-->
+        <tr th:each="contact : ${contacts}">
+            <td th:text="${contact.getContactName()}">What</td>
+            <td th:text="${contact.getMail()}">Happened?</td>
+            <td th:text="${contact.getPhoneNumber()}">Happened?</td>
+            <td>
+                <button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
+            </td>
         </tbody>
     </table>
 
@@ -52,8 +59,8 @@
 
 <script>
     function checkUserInput() {
-        var input = document.getElementById("userInput").value;
-        if (input.length == 0) {
+        var searchword = document.getElementById("searchword").value;
+        if (searchword.length == 0) {
             alert("You have to write something..");
             return false;
         }

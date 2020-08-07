@@ -13,13 +13,13 @@ import java.util.ArrayList;
 @SpringBootApplication
 public class ContactApplicationTeamorebroApplication {
 
-    private static final String URL = "jdbc:sqlite:C:\\Users\\agrevs\\IdeaProjects\\contact_application_teamorebro\\src\\main\\resources\\Contact_Application_db.sqlite";
+    private static String URL = "jdbc:sqlite::resource:Contact_Application_db.sqlite";
     private static Connection conn = null;
     private static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
-        SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
         readContacts();
+        SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
     }
 
     public static ArrayList<Contact> searchContacts(String searchword) {
@@ -27,7 +27,7 @@ public class ContactApplicationTeamorebroApplication {
         ArrayList<Contact> matchingContacts = new ArrayList<>();
 
         for (Contact c: contacts) {
-            if (c.getContactName().contains(searchword)) {
+            if (c.getContactName().toLowerCase().contains(searchword.toLowerCase())) {
                 matchingContacts.add(c);
             }
         }
@@ -44,6 +44,58 @@ public class ContactApplicationTeamorebroApplication {
             preparedStatement.setString(1, contact.getContactName());
             preparedStatement.setString(2, contact.getMail());
             preparedStatement.setString(3, contact.getPhoneNumber());
+            preparedStatement.execute();
+
+        }
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("Connection to SQLite has been closed.");
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+    }
+
+    public static void editContact(Contact contact) {
+        openConnection();
+
+        try{
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("UPDATE Contacts SET ContactName = ?, Mail = ?, PhoneNumber = ?" +
+                            "WHERE Id = ?");
+            preparedStatement.setString(1, contact.getContactName());
+            preparedStatement.setString(2, contact.getMail());
+            preparedStatement.setString(3, contact.getPhoneNumber());
+            preparedStatement.setInt(4, contact.getId());
+            preparedStatement.execute();
+
+        }
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("Connection to SQLite has been closed.");
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+    }
+
+    public static void deleteContact(int id) {
+        openConnection();
+
+        try{
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("DELETE FROM Contacts WHERE Id = ?");
+            preparedStatement.setInt(1, id);
             preparedStatement.execute();
 
         }

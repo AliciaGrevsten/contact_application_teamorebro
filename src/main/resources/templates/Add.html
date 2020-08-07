@@ -14,8 +14,7 @@
     <h1 class="text-center">Add New Contact</h1>
     <br>
 
-    <form class="form-group" action="#" method="post" th:action="@{/addContact}"
-          onclick="return checkUserInput()">
+    <form class="form-group" action="#" method="post" th:action="@{/addContact}" onsubmit="return checkUserInput()">
         <label for="contactName" class="form-inline">Name: </label>
         <input type="text" id="contactName" name="contactName">
         <br>
