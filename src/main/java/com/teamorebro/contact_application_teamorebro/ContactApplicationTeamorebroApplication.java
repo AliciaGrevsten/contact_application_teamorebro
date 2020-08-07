@@ -20,7 +20,6 @@ public class ContactApplicationTeamorebroApplication {
     public static void main(String[] args) {
         SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
         readContacts();
-        SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
     }
 
     public static void addContact(Contact contact) {
@@ -28,9 +27,18 @@ public class ContactApplicationTeamorebroApplication {
 
         try{
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("INSERT INTO Contacts (Id, Name, Mail, PhoneNumber) VALUES (" + contact.getId() +
-                            ", " + contact.getName() + ", " + contact.getMail() + ", " + contact.getPhoneNumber() + ")");
-            ResultSet resultSet = preparedStatement.executeQuery();
+                    conn.prepareStatement("INSERT INTO Contacts (ContactName, Mail, PhoneNumber) VALUES (?, ?, ?)");
+            preparedStatement.setString(1, contact.getContactName());
+            preparedStatement.setString(2, contact.getMail());
+            preparedStatement.setString(3, contact.getPhoneNumber());
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected==1) {
+                System.out.println("<----------------------------- Added");
+            } else {
+                System.out.println("<----------------------------- What?");
+            }
+
         }
         catch (Exception exception){
             System.out.println(exception.toString());
@@ -66,14 +74,14 @@ public class ContactApplicationTeamorebroApplication {
 
         try{
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("SELECT Id,Name,Mail,PhoneNumber FROM Contact");
+                    conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 contacts.add(
                         new Contact(
                                 resultSet.getInt("Id"),
-                                resultSet.getString("Name"),
+                                resultSet.getString("ContactName"),
                                 resultSet.getString("Mail"),
                                 resultSet.getString("PhoneNumber")
                         ));

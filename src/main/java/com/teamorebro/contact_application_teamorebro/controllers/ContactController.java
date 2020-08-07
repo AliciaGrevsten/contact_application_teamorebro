@@ -3,6 +3,7 @@ package com.teamorebro.contact_application_teamorebro.controllers;
 import com.teamorebro.contact_application_teamorebro.ContactApplicationTeamorebroApplication;
 import com.teamorebro.contact_application_teamorebro.models.Contact;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,9 +15,11 @@ public class ContactController {
         return ContactApplicationTeamorebroApplication.fetchContact(Id);
     }*/
 
-    @GetMapping("/contact")
-    public static void addContact(@RequestParam(value="Contact") Contact contact ) {
+    @PostMapping("/addContact")
+    public static String addContact(@RequestParam() String contactName, String mail, String phonenumber ) {
+        Contact contact = new Contact(contactName, mail, phonenumber);
         ContactApplicationTeamorebroApplication.addContact(contact);
+        return "/";
     }
 
 

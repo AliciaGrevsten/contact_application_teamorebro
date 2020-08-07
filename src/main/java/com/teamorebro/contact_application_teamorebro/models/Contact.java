@@ -3,14 +3,20 @@ package com.teamorebro.contact_application_teamorebro.models;
 public class Contact {
 
     private static int Id;
-    private static String Name;
+    private static String ContactName;
     private static String Mail;
     private static String PhoneNumber;
 
 
-    public Contact(int id, String name, String mail, String phonenumber) {
+    public Contact(int id, String contactName, String mail, String phonenumber) {
         this.Id = id;
-        this.Name = name;
+        this.ContactName = contactName;
+        this.Mail = mail;
+        this.PhoneNumber = phonenumber;
+    }
+
+    public Contact(String contactName, String mail, String phonenumber) {
+        this.ContactName = contactName;
         this.Mail = mail;
         this.PhoneNumber = phonenumber;
     }
@@ -23,12 +29,12 @@ public class Contact {
         Id = id;
     }
 
-    public static String getName() {
-        return Name;
+    public static String getContactName() {
+        return ContactName;
     }
 
-    public static void setName(String name) {
-        Name = name;
+    public static void setContactName(String contactName) {
+        ContactName = contactName;
     }
 
     public static String getMail() {

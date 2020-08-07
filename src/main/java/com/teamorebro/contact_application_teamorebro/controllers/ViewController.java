@@ -12,18 +12,17 @@ import java.util.ArrayList;
 @Controller
 public class ViewController {
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String showContacts(Model model) {
         ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.getContacts();
         model.addAttribute(contacts);
         return "/";
     }
-
+*/
     @GetMapping("/add")
     public String addNewContact() {
-        return "add";
+        return "Add";
     }
-
     /*@GetMapping("/edit")
     public String editContact(@RequestParam(name="input", required = false, defaultValue = "") int Id, Model model) {
         Contact contact = ContactController.findContact(Id);
