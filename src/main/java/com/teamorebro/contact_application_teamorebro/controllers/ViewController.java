@@ -17,9 +17,14 @@ public class ViewController {
         return "Add";
     }
 
+    /*@GetMapping("/edit")
+    public String editContact() {
+        return "Edit";
+    }*/
+
     @GetMapping("/edit")
-    public String editContact(@RequestParam(name="input", required = false, defaultValue = "") int Id, Model model) {
-        Contact contact = ContactController.findContactById(Id);
+    public String editContact(@RequestParam int id, Model model) {
+        Contact contact = ContactController.findContactById(id);
         model.addAttribute(contact);
         return "Edit";
     }

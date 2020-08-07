@@ -20,24 +20,26 @@ public class ContactController {
     }
     @GetMapping("/findContact")
     public static Contact findContactById(@RequestParam(value="Id") int id) {
-        Contact contact = ContactApplicationTeamorebroApplication.fetchContact(id);
-        return contact;
+        return ContactApplicationTeamorebroApplication.fetchContact(id);
     }
 
     @PostMapping("/addContact")
-    public void addContact(@RequestParam() String contactName, String mail, String phonenumber ) {
+    public String addContact(@RequestParam() String contactName, String mail, String phonenumber ) {
         Contact contact = new Contact(contactName, mail, phonenumber);
         ContactApplicationTeamorebroApplication.addContact(contact);
+        return "redirect:/index";
     }
 
-    @PutMapping("/editContact")
-    public void editContact(@RequestParam() int id, String contactName, String mail, String phonenumber ) {
+    @RequestMapping(value = "/editContact", method ={RequestMethod.PUT, RequestMethod.GET})
+    public String editContact(@RequestParam() int id, String contactName, String mail, String phonenumber ) {
         Contact contact = new Contact(id, contactName, mail, phonenumber);
-        ContactApplicationTeamorebroApplication.addContact(contact);
+        ContactApplicationTeamorebroApplication.editContact(contact);
+        return "redirect:/index";
     }
 
-    @DeleteMapping("/deleteContact")
-    public void deleteContact(@RequestParam int Id) {
-        ContactApplicationTeamorebroApplication.deleteContact(Id);
+    @RequestMapping(value = "/delete", method ={RequestMethod.DELETE, RequestMethod.GET})
+    public String deleteContact(@RequestParam int id) {
+        ContactApplicationTeamorebroApplication.deleteContact(id);
+        return "redirect:/index";
     }
 }
