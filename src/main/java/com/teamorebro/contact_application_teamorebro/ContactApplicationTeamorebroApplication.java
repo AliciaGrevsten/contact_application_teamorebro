@@ -4,10 +4,7 @@ import com.teamorebro.contact_application_teamorebro.models.Contact;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -15,24 +12,48 @@ public class ContactApplicationTeamorebroApplication {
 
     private static String URL = "jdbc:sqlite::resource:Contact_Application_db.sqlite";
     private static Connection conn = null;
-    private static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
         readContacts();
         SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
     }
 
-    public static ArrayList<Contact> searchContacts(String searchword) {
-        readContacts();
-        ArrayList<Contact> matchingContacts = new ArrayList<>();
+    public static Contact searchContacts(String word){
+        openConnection();
 
-        for (Contact c: contacts) {
-            if (c.getContactName().toLowerCase().contains(searchword.toLowerCase())) {
-                matchingContacts.add(c);
+        try {
+            ArrayList<Contact> contacts = readContacts();
+            ArrayList<Contact> matchingContacts = new ArrayList<>();
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            for (Contact c : contacts) {
+                if (c.getContactName().toLowerCase().contains(word.toLowerCase())) {
+
+                    matchingContacts.add(new Contact(
+                            resultSet.getInt("Id"),
+                            resultSet.getString("ContactName"),
+                            resultSet.getString("Mail"),
+                            resultSet.getString("PhoneNumber")
+                    ));
+                }
             }
         }
-
-        return matchingContacts;
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("Connection to SQLite has been closed.");
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+        return null;
     }
 
     public static void addContact(Contact contact) {
@@ -114,8 +135,9 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static Contact fetchContact(int id){
+        ArrayList<Contact> contacts = readContacts();
         Contact returnCustomer = null;
-        for (Contact contact : ContactApplicationTeamorebroApplication.getContacts())
+        for (Contact contact : contacts)
         {
             if (contact.getId() == id)
             {
@@ -129,10 +151,11 @@ public class ContactApplicationTeamorebroApplication {
         return returnCustomer;
     }
 
-    public static void readContacts(){
+    public static ArrayList<Contact> readContacts(){
         openConnection();
 
         try{
+            ArrayList<Contact> contacts = new ArrayList<>();
             PreparedStatement preparedStatement =
                     conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -146,7 +169,7 @@ public class ContactApplicationTeamorebroApplication {
                                 resultSet.getString("PhoneNumber")
                         ));
             }
-
+            return contacts;
         }
         catch (Exception exception){
             System.out.println(exception.toString());
@@ -160,6 +183,7 @@ public class ContactApplicationTeamorebroApplication {
                 System.out.println(exception.toString());
             }
         }
+        return null;
     }
 
     public static void openConnection(){
@@ -172,12 +196,12 @@ public class ContactApplicationTeamorebroApplication {
         }
     }
 
-    public static ArrayList<Contact> getContacts() {
+    /*public static ArrayList<Contact> getContacts() {
         return contacts;
     }
 
     public static void setContacts(ArrayList<Contact> contacts) {
         ContactApplicationTeamorebroApplication.contacts = contacts;
-    }
+    }*/
 
 }

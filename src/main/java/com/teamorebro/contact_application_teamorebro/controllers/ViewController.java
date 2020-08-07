@@ -4,8 +4,7 @@ import com.teamorebro.contact_application_teamorebro.ContactApplicationTeamorebr
 import com.teamorebro.contact_application_teamorebro.models.Contact;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -18,8 +17,8 @@ public class ViewController {
     }
 
     @GetMapping("/edit")
-    public String editContact(@RequestParam(name="input", required = false, defaultValue = "") int Id, Model model) {
-        Contact contact = ContactController.findContactById(Id);
+    public String editContact(@RequestParam int id, Model model) {
+        Contact contact = ContactController.findContactById(id);
         model.addAttribute(contact);
         return "Edit";
     }
@@ -27,8 +26,17 @@ public class ViewController {
     @GetMapping("/")
     public String showContacts(Model model) {
         ContactApplicationTeamorebroApplication.readContacts();
-        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.getContacts();
+        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.readContacts();
         model.addAttribute("contacts", contacts);
         return "index";
     }
+
+    @RequestMapping(value = "/contact/search")
+    public String searchedContacts(@RequestParam("word") String word, Model model) {
+        ContactApplicationTeamorebroApplication.readContacts();
+       // ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.searchCon(word);
+        model.addAttribute("contacts", ContactApplicationTeamorebroApplication.searchContacts(word));
+        return "index";
+    }
+
 }
