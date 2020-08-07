@@ -5,9 +5,7 @@ import com.teamorebro.contact_application_teamorebro.models.Contact;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -37,7 +35,7 @@ public class ViewController {
     public String searchedContacts(@RequestParam("word") String word, Model model) {
         ContactApplicationTeamorebroApplication.readContacts();
        // ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.searchCon(word);
-        model.addAttribute("contacts", ContactApplicationTeamorebroApplication.searchCon(word));
+        model.addAttribute("contacts", ContactApplicationTeamorebroApplication.searchContacts(word));
         return "index";
     }
 

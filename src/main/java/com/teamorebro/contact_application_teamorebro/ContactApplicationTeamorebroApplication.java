@@ -4,10 +4,7 @@ import com.teamorebro.contact_application_teamorebro.models.Contact;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -15,49 +12,34 @@ public class ContactApplicationTeamorebroApplication {
 
     private static String URL = "jdbc:sqlite::resource:Contact_Application_db.sqlite";
     private static Connection conn = null;
-    //private static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
         readContacts();
         SpringApplication.run(ContactApplicationTeamorebroApplication.class, args);
     }
 
-    public static ArrayList<Contact> searchContacts(String searchword) {
-        ArrayList<Contact> contacts = readContacts();
-        ArrayList<Contact> matchingContacts = new ArrayList<>();
-
-        for (Contact c: contacts) {
-            if (c.getContactName().toLowerCase().contains(searchword.toLowerCase())) {
-                matchingContacts.add(c);
-            }
-        }
-
-        return matchingContacts;
-    }
-    public static Contact searchCon(String word){
+    public static Contact searchContacts(String word){
         openConnection();
 
         try {
+            ArrayList<Contact> contacts = readContacts();
+            ArrayList<Contact> matchingContacts = new ArrayList<>();
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts WHERE ContactName like ");
-          //  preparedStatement.setString(1,word);
+                    conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             for (Contact c : contacts) {
                 if (c.getContactName().toLowerCase().contains(word.toLowerCase())) {
 
-                    return new Contact(
+                    matchingContacts.add(new Contact(
                             resultSet.getInt("Id"),
                             resultSet.getString("ContactName"),
                             resultSet.getString("Mail"),
                             resultSet.getString("PhoneNumber")
-                    );
+                    ));
                 }
             }
-
-
-
         }
         catch (Exception exception){
             System.out.println(exception.toString());
