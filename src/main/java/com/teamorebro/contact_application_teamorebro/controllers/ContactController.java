@@ -5,6 +5,8 @@ import com.teamorebro.contact_application_teamorebro.models.Contact;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
@@ -24,22 +26,24 @@ public class ContactController {
     }
 
     @PostMapping("/addContact")
-    public String addContact(@RequestParam() String contactName, String mail, String phonenumber ) {
+    public void addContact(HttpServletResponse response, @RequestParam() String contactName, String mail, String phonenumber )  throws IOException {
         Contact contact = new Contact(contactName, mail, phonenumber);
         ContactApplicationTeamorebroApplication.addContact(contact);
-        return "redirect:/index";
+        response.sendRedirect("/");
     }
 
     @RequestMapping(value = "/editContact", method ={RequestMethod.PUT, RequestMethod.GET})
-    public String editContact(@RequestParam() int id, String contactName, String mail, String phonenumber ) {
+    public void editContact(HttpServletResponse response, @RequestParam() int id, String contactName, String mail, String phonenumber )  throws IOException {
         Contact contact = new Contact(id, contactName, mail, phonenumber);
         ContactApplicationTeamorebroApplication.editContact(contact);
-        return "redirect:/index";
+        response.sendRedirect("/");
     }
 
     @RequestMapping(value = "/delete", method ={RequestMethod.DELETE, RequestMethod.GET})
-    public String deleteContact(@RequestParam int id) {
+    public void deleteContact(HttpServletResponse response, @RequestParam int id) throws IOException {
         ContactApplicationTeamorebroApplication.deleteContact(id);
-        return "redirect:/index";
+        response.sendRedirect("/");
     }
+
+
 }

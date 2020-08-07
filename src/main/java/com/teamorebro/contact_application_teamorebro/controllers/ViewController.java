@@ -17,11 +17,6 @@ public class ViewController {
         return "Add";
     }
 
-    /*@GetMapping("/edit")
-    public String editContact() {
-        return "Edit";
-    }*/
-
     @GetMapping("/edit")
     public String editContact(@RequestParam int id, Model model) {
         Contact contact = ContactController.findContactById(id);
@@ -32,7 +27,7 @@ public class ViewController {
     @GetMapping("/")
     public String showContacts(Model model) {
         ContactApplicationTeamorebroApplication.readContacts();
-        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.getContacts();
+        ArrayList<Contact> contacts = ContactApplicationTeamorebroApplication.readContacts();
         model.addAttribute("contacts", contacts);
         return "index";
     }
