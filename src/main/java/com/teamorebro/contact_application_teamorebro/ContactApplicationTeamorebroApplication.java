@@ -34,6 +34,45 @@ public class ContactApplicationTeamorebroApplication {
 
         return matchingContacts;
     }
+    public static Contact searchCon(String word){
+        openConnection();
+
+        try {
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts WHERE ContactName like ");
+          //  preparedStatement.setString(1,word);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            for (Contact c : contacts) {
+                if (c.getContactName().toLowerCase().contains(word.toLowerCase())) {
+
+                    return new Contact(
+                            resultSet.getInt("Id"),
+                            resultSet.getString("ContactName"),
+                            resultSet.getString("Mail"),
+                            resultSet.getString("PhoneNumber")
+                    );
+                }
+            }
+
+
+
+        }
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("Connection to SQLite has been closed.");
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+        return null;
+    }
 
     public static void addContact(Contact contact) {
         openConnection();
