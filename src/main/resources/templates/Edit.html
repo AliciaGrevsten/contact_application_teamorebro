@@ -9,33 +9,40 @@
     <title>Edit Contact</title>
 </head>
 <body>
-<div class="jumbotron container text-center col-lg-5 col-lg-offset-5">
+<div class="jumbotron container col-lg-4 col-lg-offset-6">
 
-    <h1>Edit Existing Contact</h1>
+    <h1 class="text-center">Edit Existing Contact</h1>
     <br>
 
-    <form action="/edit" method="get" onsubmit="return checkUserInput()">
-        <label for="contactName">Name: </label>
-        <input type="text" id="contactName" name="contactName">
-
-        <label for="mail">Mail: </label>
-        <input type="text" id="mail" name="mail">
-
-        <label for="phonenumber">Phone Number: </label>
-        <input type="text" id="phonenumber" name="phonenumber">
-
-        <input type="button" class="btn btn-success" value="Save Changes">
+    <form class="form-group" method="put" th:action="@{/editContact}" onsubmit="return checkUserInput()">
+        <input type="hidden" th:value="${contact.id}" id="id" name="id">
+        <label for="contactName" class="form-inline">Name: </label>
+        <input type="text" id="contactName" name="contactName" th:value="${contact.contactName}">
+        <br>
+        <label for="mail" class="form-inline">Mail: </label>
+        <input type="text" id="mail" name="mail" th:value="${contact.mail}">
+        <br>
+        <label for="phonenumber" class="form-inline">Phone Number: </label>
+        <input type="text" id="phonenumber" name="phonenumber" th:value="${contact.phoneNumber}">
+        <br>
+        <br>
+        <button type="submit" class="btn btn-success">Save Changes</button>
     </form>
 
 </div>
 
 <script>
     function checkUserInput() {
-        var name = document.getElementById("contactName").value;
+        var id = document.getElementById("id").value;
+        var contactName = document.getElementById("contactName").value;
         var mail = document.getElementById("mail").value;
         var phonenumber = document.getElementById("phonenumber").value;
 
-        if (name.length == 0) {
+        if (id == null) {
+            return false;
+        }
+
+        if (contactName.length == 0) {
             alert("Name is mandatory.");
             return false;
         }
@@ -50,7 +57,7 @@
             alert("Enter a phone number.");
             return false;
         }
-        alert("Contact edited!");
+        alert("Changes have been saved!");
         submitOK = true;
     }
 </script>

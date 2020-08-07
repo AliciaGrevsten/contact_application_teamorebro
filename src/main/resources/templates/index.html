@@ -8,10 +8,13 @@
     <title>Contact Application Orebro</title>
 </head>
 <body>
-<div class="jumbotron container text-center col-lg-5 col-lg-offset-5">
+<div class="jumbotron container text-center col-lg-8 col-lg-offset-3">
 
-    <h1>Contacts</h1>
+    <h1>Your Contacts</h1>
     <br>
+    <br>
+
+    <!--    Searchbar and button     -->
     <div class="row">
         <div class="col-xs-6 col-md-8">
             <form action="/contact/search"  method="get" onsubmit="return checkUserInput()" class="form-inline">
@@ -25,12 +28,13 @@
             </form>
         </div>
     </div>
-
-
     <br>
+
+    <!--    Contact Table     -->
     <table class="table table-hover">
         <thead>
         <tr>
+            <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Mail</th>
             <th scope="col">Phone Number</th>
@@ -39,29 +43,25 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tableContents">
         <tr th:each="contact : ${contacts}">
-            <td th:text="${contact.ContactName}">What</td>
-            <td th:text="${contact.Mail}">Happened?</td>
-            <td th:text="${contact.PhoneNumber}">Happened?</td>
-            <td>
-                <button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
-            </td>
+            <th scope="row" th:text="${contact.id}"></th>
+            <td th:text="${contact.contactName}"></td>
+            <td th:text="${contact.mail}"></td>
+            <td th:text="${contact.phoneNumber}"></td>
+            <td> <a th:href="@{/delete/(id=${contact.id})}" class="btn btn-outline-danger -btn-sm" id="deleteButton">Delete</a></td>
+            <td> <a th:href="@{/edit/(id=${contact.id})}" class="btn btn-outline-primary -btn-sm">Edit</a></td>
         </tbody>
     </table>
 
     <br>
-
 </div>
 
 <script>
     function checkUserInput() {
         var searchword = document.getElementById("searchword").value;
         if (searchword.length == 0) {
-            alert("You have to write something..");
+            alert("You have to write something.." + id);
             return false;
         }
         submitOK = true;

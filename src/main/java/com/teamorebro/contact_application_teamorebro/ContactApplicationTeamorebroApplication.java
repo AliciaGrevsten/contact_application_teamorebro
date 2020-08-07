@@ -15,7 +15,7 @@ public class ContactApplicationTeamorebroApplication {
 
     private static String URL = "jdbc:sqlite::resource:Contact_Application_db.sqlite";
     private static Connection conn = null;
-    private static ArrayList<Contact> contacts = new ArrayList<>();
+    //private static ArrayList<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
         readContacts();
@@ -23,7 +23,7 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static ArrayList<Contact> searchContacts(String searchword) {
-        readContacts();
+        ArrayList<Contact> contacts = readContacts();
         ArrayList<Contact> matchingContacts = new ArrayList<>();
 
         for (Contact c: contacts) {
@@ -153,8 +153,9 @@ public class ContactApplicationTeamorebroApplication {
     }
 
     public static Contact fetchContact(int id){
+        ArrayList<Contact> contacts = readContacts();
         Contact returnCustomer = null;
-        for (Contact contact : ContactApplicationTeamorebroApplication.getContacts())
+        for (Contact contact : contacts)
         {
             if (contact.getId() == id)
             {
@@ -168,10 +169,11 @@ public class ContactApplicationTeamorebroApplication {
         return returnCustomer;
     }
 
-    public static void readContacts(){
+    public static ArrayList<Contact> readContacts(){
         openConnection();
 
         try{
+            ArrayList<Contact> contacts = new ArrayList<>();
             PreparedStatement preparedStatement =
                     conn.prepareStatement("SELECT Id,ContactName,Mail,PhoneNumber FROM Contacts");
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -185,7 +187,7 @@ public class ContactApplicationTeamorebroApplication {
                                 resultSet.getString("PhoneNumber")
                         ));
             }
-
+            return contacts;
         }
         catch (Exception exception){
             System.out.println(exception.toString());
@@ -199,6 +201,7 @@ public class ContactApplicationTeamorebroApplication {
                 System.out.println(exception.toString());
             }
         }
+        return null;
     }
 
     public static void openConnection(){
@@ -211,12 +214,12 @@ public class ContactApplicationTeamorebroApplication {
         }
     }
 
-    public static ArrayList<Contact> getContacts() {
+    /*public static ArrayList<Contact> getContacts() {
         return contacts;
     }
 
     public static void setContacts(ArrayList<Contact> contacts) {
         ContactApplicationTeamorebroApplication.contacts = contacts;
-    }
+    }*/
 
 }
